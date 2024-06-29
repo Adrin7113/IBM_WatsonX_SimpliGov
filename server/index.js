@@ -1,15 +1,32 @@
-// Import the http module
 const http = require("http");
+const url = require("url");
+const { PORT } = require("./data/global");
 
-// Define the request handling function
-const requestHandler = (request, response) => {
-  response.end("Hello, World!");
-};
+const server = http.createServer(async (req, res) => {
+  const parsedUrl = url.parse(req.url);
+  const pathname = parsedUrl.pathname;
 
-// Create the server
-const server = http.createServer(requestHandler);
+  // Handle OPTIONS request for CORS preflight request from browser
+  if (req.method === "OPTIONS") {
+    handleOptionsRequest(req, res);
+  }
 
-// Start the server
-server.listen(3000, () => {
-  console.log("Server is running on http://localhost:3000");
+  // Root route
+  if (pathname === "/") {
+    handleRootRequest(req, res);
+  }
+
+  // Chat reply route
+  else if (pathname === "/generateChatReply" && req.method === "POST") {
+    handleGenerateChatReplyRequest(req, res);
+  }
+
+  // Not found route
+  else {
+    handleNotFoundRequest(req, res);
+  }
+});
+
+server.listen(PORT, () => {
+  console.log(`Server is running on port: ${PORT}`);
 });
