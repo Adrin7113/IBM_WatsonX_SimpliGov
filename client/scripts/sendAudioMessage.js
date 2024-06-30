@@ -101,18 +101,27 @@ async function exportRecording() {
   messagesDiv.appendChild(userAudioPlayer);
 
   // Send the blob to the API
-  const formData = new FormData();
-  formData.append("audio", blob);
-  // const response = await fetch("https://api.example.com/audio", {
-  //   method: "POST",
-  //   body: formData,
-  // });
+  const reader = new FileReader();
+  reader.onloadend = async function () {
+    // Remove the 'data:audio/wav;base64,' part from the data URL
+    const base64Audio = reader.result.split(",")[1];
 
-  // When the result arrives, create a new audio player
+    const response = await fetch("http://localhost:3000/generateAudioReply", {
+      method: "POST",
+      headers: {
+        "Content-Type": "text/plain",
+      },
+      body: base64Audio,
+    });
 
-  // if (response.ok) {
-  const aiAudioURL = audioURL; // Get the audio URL from the response (For testing it's same)
-  const aiAudioPlayer = createAudioPlayer(aiAudioURL, "ai");
-  messagesDiv.appendChild(aiAudioPlayer);
-  // }
+    console.log(response);
+
+    // When the result arrives, create a new audio player
+    if (response.ok) {
+      const aiAudioURL = await response.text(); // Get the audio URL from the response
+      const aiAudioPlayer = createAudioPlayer(aiAudioURL, "ai");
+      messagesDiv.appendChild(aiAudioPlayer);
+    }
+  };
+  reader.readAsDataURL(blob);
 }
