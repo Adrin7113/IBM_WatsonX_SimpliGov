@@ -1,6 +1,11 @@
 const http = require("http");
 const url = require("url");
 const { PORT } = require("./data/global");
+const handleGenerateChatReplyRequest = require("./routes/handleGenerateChatReplyReq");
+const handleRootRequest = require("./routes/handleRootReq");
+const handleOptionsRequest = require("./routes/handleOptionsReq");
+const handleNotFoundRequest = require("./routes/handleNotFoundReq");
+const handleGenerateAudioReplyRequest = require("./routes/handleGenerateAudioReplyRequest");
 
 const server = http.createServer(async (req, res) => {
   const parsedUrl = url.parse(req.url);
@@ -9,6 +14,7 @@ const server = http.createServer(async (req, res) => {
   // Handle OPTIONS request for CORS preflight request from browser
   if (req.method === "OPTIONS") {
     handleOptionsRequest(req, res);
+    return;
   }
 
   // Root route
@@ -19,6 +25,11 @@ const server = http.createServer(async (req, res) => {
   // Chat reply route
   else if (pathname === "/generateChatReply" && req.method === "POST") {
     handleGenerateChatReplyRequest(req, res);
+  }
+
+  // Audio reply route
+  else if (pathname === "/generateAudioReply" && req.method === "POST") {
+    handleGenerateAudioReplyRequest(req, res);
   }
 
   // Not found route

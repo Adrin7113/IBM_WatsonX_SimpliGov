@@ -1,3 +1,5 @@
+const sendResponse = require("../utils/sendResponse");
+
 const handleNotFoundRequest = (req, res) => {
   sendResponse(res, 404, "text/plain", "Not Found\n");
 };
