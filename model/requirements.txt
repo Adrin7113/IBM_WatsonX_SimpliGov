@@ -1,0 +1,10 @@
+jq
+tiktoken
+chromadb
+langchainhub
+langchain_ibm
+tavily-python
+langchain_groq
+langchain langgraph
+langchain_community
+sentence_transformers
