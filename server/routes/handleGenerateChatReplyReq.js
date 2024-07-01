@@ -1,4 +1,7 @@
 const sendResponse = require("../utils/sendResponse");
+const generateChatReply = require("../utils/generateChatReply");
+
+
 
 const handleGenerateChatReplyRequest = async (req, res) => {
   let body = "";
@@ -10,8 +13,10 @@ const handleGenerateChatReplyRequest = async (req, res) => {
       const data = JSON.parse(body);
       const message = data.message;
 
+      console.log("message",message);
       try {
         const output = await generateChatReply(message);
+        console.log("output",output);
         sendResponse(
           res,
           200,
