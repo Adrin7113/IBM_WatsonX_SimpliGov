@@ -1,7 +1,10 @@
-async function translate(text) {
-  const apiKey = "AIzaSyASJvnbHLrtr_w6XjU_qTcLErXKtTk33g4";
+const sendResponse = require("../utils/sendResponse");
 
-  const targetLanguage = "en"; // Spanish
+async function translate(req, res) {
+
+  const text = req.body.text;
+  const targetLanguage = req.body.lang;
+  const apiKey = "AIzaSyASJvnbHLrtr_w6XjU_qTcLErXKtTk33g4";
 
   const url = `https://translation.googleapis.com/language/translate/v2?key=${apiKey}`;
 
@@ -21,17 +24,17 @@ async function translate(text) {
     .then((data) => {
       const translatedText = data.data.translations[0].translatedText;
       console.log(translatedText);
-      return translatedText;
+
+      sendResponse(
+        res,
+        200,
+        "application/json",
+        JSON.stringify({ translatedText: translatedText })
+      );
     })
     .catch((error) => {
       console.error("Error:", error);
     });
 }
 
-
-async function lmo(){
-  console.log("translate", translate("Hola, ¿cómo estás?"))
-}
-
-lmo()
 module.exports = translate;

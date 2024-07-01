@@ -6,6 +6,7 @@ const handleRootRequest = require("./routes/handleRootReq");
 const handleOptionsRequest = require("./routes/handleOptionsReq");
 const handleNotFoundRequest = require("./routes/handleNotFoundReq");
 const handleGenerateAudioReplyRequest = require("./routes/handleGenerateAudioReplyRequest");
+const translate = require("./routes/translate");
 
 const server = http.createServer(async (req, res) => {
   const parsedUrl = url.parse(req.url);
@@ -30,6 +31,10 @@ const server = http.createServer(async (req, res) => {
   // Audio reply route
   else if (pathname === "/generateAudioReply" && req.method === "POST") {
     handleGenerateAudioReplyRequest(req, res);
+  }
+
+  else if (pathname === "/translateText" && req.method === "POST") {
+    translate(req, res);
   }
 
   // Not found route

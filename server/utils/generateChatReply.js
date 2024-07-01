@@ -1,5 +1,3 @@
-const { MODEL_PATH } = require("../data/global");
-
 async function generateChatReply(message) {
   return new Promise((resolve, reject) => {
     fetch("https://api.groq.com/openai/v1/chat/completions", {
