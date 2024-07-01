@@ -16,6 +16,29 @@ document
 
 // RERENDERS THE MESSAGES
 
+const apiKey = 'AIzaSyASJvnbHLrtr_w6XjU_qTcLErXKtTk33g4'
+
+function translateText(inputText,) {
+  fetch(`${BASE_URL}/translateText`, {
+    method: "POST",
+    body: JSON.stringify({
+      text: inputText,
+      lang: "",
+    }),
+    headers: {
+      "Content-type": "application/json; charset=UTF-8",
+    },
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      console.log("Data received");
+      console.log(data);
+  })
+}
+
+
+
+
 function createMessage(message, isAiMessage) {
   let div = document.createElement("div");
   div.classList.add("chat-message");
