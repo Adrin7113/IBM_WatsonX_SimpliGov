@@ -10,6 +10,7 @@ microphoneButton.addEventListener("click", function () {
   if (recorder && recorder.state === "recording") {
     recorder.stop();
     microphoneImage.src = "../public/micStart.svg";
+    recorder = null;
   } else {
     microphoneImage.src = "../public/micStop.svg";
     navigator.mediaDevices
